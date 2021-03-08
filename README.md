@@ -68,3 +68,27 @@ The image will be tagged with the value of `version` from _Chart.yaml_.
   ]
 }
 ```
+
+## S3 Example
+
+In order to use s3 as a helm repo, you need to use the [helm-s3](https://github.com/hypnoglow/helm-s3) plugin.
+Before you run semantic release, you need to add your s3 bucket to your repos: `helm repo add my-s3-bucket-repo s3://my-s3-bucket/charts`.
+
+This will update versions in `./chart/Chart.yaml`
+and push the chart to `my-s3-bucket`.
+The image will be tagged with the value of `version` from _Chart.yaml_.
+
+```
+{
+  "plugins": [
+    [
+      "semantic-release-helm",
+      {
+        path: './chart',
+        registry: 'my-s3-bucket-repo',
+        useS3: true,
+      }
+    ]
+  ]
+}
+```
