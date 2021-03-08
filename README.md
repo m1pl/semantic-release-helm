@@ -36,11 +36,18 @@ New chart version is 1.0.0
 
 ## Configuration
 
-- path (required)  
+- path (required) - string
 Chart directory, where the _Chart.yaml_ is located.
 
-- registry (optional)  
+- registry (optional) - string
 URI of a container registry.
+
+- useS3 (optional) - boolean
+Use S3 instead of a HTTP repo (see example for more details)
+
+- onlyUpdateVersion (optional) - boolean
+Only update the `version` and NOT the `appVersion`. This is useful if you have the chart in a different git repo than the application.
+**IMPORTANT:** `version` will be set to `nextRelease.version`!
 
 Pass credentials through environment variables accordingly:
 
