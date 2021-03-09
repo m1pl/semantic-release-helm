@@ -41,19 +41,24 @@ Chart directory, where the _Chart.yaml_ is located.
 
 - registry (optional) - string
 URI of a container registry.
-
-- useS3 (optional) - boolean
-Use S3 instead of a HTTP repo (see example for more details)
+Use `s3://` if you want to push to a s3 bucket
 
 - onlyUpdateVersion (optional) - boolean
 Only update the `version` and NOT the `appVersion`. This is useful if you have the chart in a different git repo than the application.
-**IMPORTANT:** `version` will be set to `nextRelease.version`!
 
 Pass credentials through environment variables accordingly:
 
 ```
 export REGISTRY_USERNAME=<USERNAME>
 export REGISTRY_PASSWORD=<PASSWORD>
+```
+
+If you want to use s3, use the folling environment variables for your AWS credentials:
+
+```
+export AWS_REGION=<REGION> (e.g. eu-central-1)
+export AWS_ACCESS_KEY_ID=<KEY_ID>
+export AWS_SECRET_ACCESS_KEY=<SECRET>
 ```
 
 ## Example
@@ -78,11 +83,10 @@ The image will be tagged with the value of `version` from _Chart.yaml_.
 
 ## S3 Example
 
-In order to use s3 as a helm repo, you need to use the [helm-s3](https://github.com/hypnoglow/helm-s3) plugin.
-Before you run semantic release, you need to add your s3 bucket to your repos: `helm repo add my-s3-bucket-repo s3://my-s3-bucket/charts`.
+semantic-release-helm uses the [helm-s3](https://github.com/hypnoglow/helm-s3) plugin in the background. If you want to use a thrid party s3 repo, you can take a look at the documentation of the plugin.
 
 This will update versions in `./chart/Chart.yaml`
-and push the chart to `my-s3-bucket`.
+and push the chart to `s3://my-s3-bucket/s3-prefix`.
 The image will be tagged with the value of `version` from _Chart.yaml_.
 
 ```
@@ -92,8 +96,7 @@ The image will be tagged with the value of `version` from _Chart.yaml_.
       "semantic-release-helm",
       {
         path: './chart',
-        registry: 'my-s3-bucket-repo',
-        useS3: true,
+        registry: 's3://my-s3-bucket-repo/s3-prefix',
       }
     ]
   ]
